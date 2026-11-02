@@ -1,15 +1,15 @@
 # 瞬间重构 · 纸世界
 
-> 四个仓库：三件自己做的工具与构想，一份帮别人少踩坑的排障整理。
+> 五个仓库：四件自己做的工具与构想、一个能复用的 AI 技能，一份帮别人少踩坑的排障整理。
 > 主线仍然是那句 **把「常驻」改成「按需」**。
 
 我是 `difaandailisi`。这里放着我真正做完的东西——不是 demo，不是构想稿，
-而是两个能跑的工具、一份能落地的架构设想、一条能验证的机制记录，
+而是三个能跑的工具、一份能落地的架构设想、一个能复用的 AI 技能、一条能验证的机制记录，
 外加一份逐帧核对过的硬件排障文档。
 
 ---
 
-## 四个仓库
+## 五个仓库
 
 | 仓库 | 一句话 | 状态 |
 |---|---|---|
@@ -17,6 +17,7 @@
 | **[荣耀手写笔悬浮菜单](https://github.com/difaandailisi/honor-stylus-floatmenu)** | Android 手写笔电量分析 App（BLE 电量监测 / 充放电统计 / 系统笔状态模拟）+ 荣耀系统应用逆向分析记录 | 可运行，MIT |
 | **[NFCSHARE 荣耀版](https://github.com/difaandailisi/NFCSHARE-Honor-Edition)** | 华为/荣耀「一碰传」NFC 标签生成工具（Windows/Python），读设备 SN / 蓝牙 MAC / 型号生成二维码 | 可运行，MIT |
 | **[V100 跑达芬奇不黑屏](https://github.com/difaandailisi/v100-resolve-blackscreen)** | Tesla V100 计算卡 + 亮机卡在 Windows 上跑 DaVinci Resolve 的黑屏成因，与三种能走通的解法（含网易 UU 虚拟屏） | 文档整理，CC BY-SA 4.0 |
+| **[123 云盘助手技能](https://github.com/difaandailisi/p123)** | 一个 WorkBuddy 技能：扫码登录 / 文件管理 / 秒传上传 / 下载会员限制如实报告，命令行即可驱动 | 可复用技能，CC BY-SA 4.0 |
 
 ---
 
@@ -116,6 +117,38 @@ CC BY-SA 4.0（原视频与截图版权归原作者）。
 
 ---
 
+## 五、123 云盘助手技能
+
+一个 WorkBuddy 技能（也是一套 Python 脚本），把 123 云盘（123pan.com）的常用操作
+从网页点按变成命令行驱动。这不是官方 SDK，而是对 123 云盘 Web 端真实接口的实测封装。
+
+踩过的坑都写进了技能里，最关键的三条：
+
+- **登录只走扫码**：手机号 + 验证码这条路会被阿里云滑块拦死（无头环境下拖不动），
+  二维码用 Playwright 截出来，手机 App 一扫即过。登录态存到 `~/.p123/state.json`。
+- **上传支持秒传**：文件先算 MD5，命中服务端已有对象就直接挂接，不上传任何字节。
+  像 Android Studio 官方安装包这种热门文件，几乎必然秒传。
+- **下载会如实报限制**：免费账号下载受会员策略约束（`isBlocked`、`shareTrafficBalance`）。
+  技能不会假装能下，而是把"需要 VIP"这件事明明白白告诉你。
+
+功能清单（命令即文档）：
+
+| 命令 | 作用 |
+|---|---|
+| `python3 login_qr.py` | 弹出二维码、轮询登录、保存登录态 |
+| `python3 p123.py whoami` | 打印账号、空间、UID |
+| `python3 p123.py ls [父目录ID]` | 列目录（默认根目录） |
+| `python3 p123.py search <关键词>` | 全局搜索，保留相关性顺序 |
+| `python3 p123.py mkdir <名称> [父目录ID]` | 建文件夹 |
+| `python3 p123.py rm <FileId>` | 删除（移入回收站） |
+| `python3 p123.py mv <FileId> <目标目录ID>` | 移动 / 整理文件 |
+| `python3 p123.py upload <本地路径> [父目录ID]` | 秒传优先上传 |
+| `python3 p123.py dlcheck <FileId>` | 下载前预检，如实报告会员限制 |
+
+CC BY-SA 4.0。
+
+---
+
 ## 关于第三方组件与使用风险
 
 这部分我写得很直白，因为含糊对谁都没好处。
@@ -153,5 +186,6 @@ CC BY-SA 4.0（原视频与截图版权归原作者）。
 | 手写笔 App 与逆向分析文档 | MIT |
 | NFCSHARE 荣耀版 | MIT |
 | V100 跑达芬奇（文档与截图编排） | CC BY-SA 4.0（原视频版权归 @水芙的达芬奇） |
+| 123 云盘助手技能 | CC BY-SA 4.0 |
 | `adb/` 目录 | Apache-2.0（版权归 Google / AOSP） |
 | 一碰传助手 APK | 不随附、不分发 |
