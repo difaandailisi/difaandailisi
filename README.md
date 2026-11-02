@@ -1,15 +1,15 @@
 # 瞬间重构 · 纸世界
 
-> 五个仓库：四件自己做的工具与构想、一个能复用的 AI 技能，一份帮别人少踩坑的排障整理。
+> 六个仓库：几件自己做的工具与构想、两个能复用的 AI 技能，一份帮别人少踩坑的排障整理。
 > 主线仍然是那句 **把「常驻」改成「按需」**。
 
 我是 `difaandailisi`。这里放着我真正做完的东西——不是 demo，不是构想稿，
-而是三个能跑的工具、一份能落地的架构设想、一个能复用的 AI 技能、一条能验证的机制记录，
+而是四个能跑的工具、一份能落地的架构设想、两个能复用的 AI 技能、一条能验证的机制记录，
 外加一份逐帧核对过的硬件排障文档。
 
 ---
 
-## 五个仓库
+## 六个仓库
 
 | 仓库 | 一句话 | 状态 |
 |---|---|---|
@@ -18,6 +18,7 @@
 | **[NFCSHARE 荣耀版](https://github.com/difaandailisi/NFCSHARE-Honor-Edition)** | 华为/荣耀「一碰传」NFC 标签生成工具（Windows/Python），读设备 SN / 蓝牙 MAC / 型号生成二维码 | 可运行，MIT |
 | **[V100 跑达芬奇不黑屏](https://github.com/difaandailisi/v100-resolve-blackscreen)** | Tesla V100 计算卡 + 亮机卡在 Windows 上跑 DaVinci Resolve 的黑屏成因，与三种能走通的解法（含网易 UU 虚拟屏） | 文档整理，CC BY-SA 4.0 |
 | **[123 云盘助手技能](https://github.com/difaandailisi/p123)** | 一个 WorkBuddy 技能：扫码登录 / 文件管理 / 秒传上传 / 下载会员限制如实报告，命令行即可驱动 | 可复用技能，CC BY-SA 4.0 |
+| **[RikkaHub 聊天记录和文件导出](https://github.com/difaandailisi/rikkahub-chat-export)** | 把 RikkaHub 备份还原成 Markdown/TXT/PDF（含 AI 思考过程），网页版零安装离线 + Python CLI，纯本地解析 | 可运行，MIT |
 
 ---
 
@@ -149,6 +150,30 @@ CC BY-SA 4.0。
 
 ---
 
+## 六、RikkaHub 聊天记录和文件导出
+
+RikkaHub（一个 Android AI 聊天 App，「设置 → 备份与恢复」）导出的备份是一个 zip，
+里面是 SQLite 数据库 `rikka_hub.db`、`settings.json` 和 `upload/` 附件——
+它只能导回 App，不能直接阅读。这个工具把库里的聊天记录还原成
+**Markdown / TXT / PDF**，连 **AI 的思考过程（reasoning）、工具调用、图片引用**都完整保留。
+
+两种形态，同一个仓库：
+
+- **网页版**（`index.html`，零安装）：手机 / 电脑浏览器打开，选 zip 即出结果。
+  sql.js 与 JSZip 全部内联进单文件，**完全离线、数据不出设备**；
+  已部署到 GitHub Pages，打开链接就能用。
+- **Python 命令行版**：`.zip` / 解压目录 / `.db` 三种输入，输出 `.md` / `.txt` / 合并 `.pdf`，
+  支持 `--no-reasoning` 关闭思考、`--only` 按标题过滤。
+
+数据格式逆向自开源的 [rikkahub/rikkahub](https://github.com/rikkahub/rikkahub)：
+消息存在 `message_node` 表（`node_index` 定顺序、`select_index` 选分支），
+每条消息的 `parts` 用 `type` 字段区分正文、思考与工具。完整表结构和 JSON 格式
+整理在 `AGENTS.md` 里，别人可以照着接着改。
+
+MIT 许可。
+
+---
+
 ## 关于第三方组件与使用风险
 
 这部分我写得很直白，因为含糊对谁都没好处。
@@ -187,5 +212,6 @@ CC BY-SA 4.0。
 | NFCSHARE 荣耀版 | MIT |
 | V100 跑达芬奇（文档与截图编排） | CC BY-SA 4.0（原视频版权归 @水芙的达芬奇） |
 | 123 云盘助手技能 | CC BY-SA 4.0 |
+| RikkaHub 聊天记录和文件导出 | MIT |
 | `adb/` 目录 | Apache-2.0（版权归 Google / AOSP） |
 | 一碰传助手 APK | 不随附、不分发 |
