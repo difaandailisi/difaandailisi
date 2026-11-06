@@ -1,0 +1,91 @@
+{
+  "owner": "difaandailisi",
+  "lede": "> 七个仓库：几件自己做的工具与构想、三个能复用的 AI 技能，一份帮别人少踩坑的排障整理。\n> 主线仍然是那句 **把「常驻」改成「按需」**。",
+  "intro": "我是 `difaandailisi`。这里放着我真正做完的东西——不是 demo，不是构想稿，\n而是五个能跑的工具、一份能落地的架构设想、三个能复用的 AI 技能、一条能验证的机制记录，\n外加一份逐帧核对过的硬件排障文档。",
+  "footer": "## 关于第三方组件与使用风险\n\n这部分我写得很直白，因为含糊对谁都没好处。\n\n**ADB（`NFCSHARE-Honor-Edition/adb/`）**\n`adb` 是 Google / Android Open Source Project 的官方工具，**不是本项目写的**，\n版权归其作者所有。本项目只是随附一份，方便没有装 Android SDK 的人直接用。\n依据是 **Apache-2.0** 明确允许再分发，条件是保留 `NOTICE.txt`。\n目录内 `README.md` 附了三个文件的 SHA-256，可自行校验，也可完全不用它、\n改去 [platform-tools 官方页](https://developer.android.com/tools/releases/platform-tools) 下载。\n\n**一碰传助手（`com.huawei.touchshare` / `com.hihonor.touchshare`）**\n本仓库**不提供下载**。原因是它并非通用应用——它调用华为/荣耀设备侧的私有服务，\n装到其它品牌手机上跑不起来，所以官方不面向所有人分发；市面上流传的多是\n从设备提取的改版，甚至破解版，来源不可验证、完整性无法校验。\n\n正规获取路径：系统自带 → 应用市场 → 从自己的旧设备备份提取（HiSuite 备份里\n那个 `com.huawei.touchshare.apk` 就是你自己的数据，来源明确）。\n\n**修改系统设置的风险**\n本仓库配套工具会读写 ADB / 系统全局设置。属于非官方途径，可能与原厂服务冲突、\n导致系统行为异常，甚至影响保修。**请在充分理解风险的前提下自行决定是否使用**，\n并自行承担后果。请勿用于绕过授权、商业作弊或其他不当用途。\n\n> **能用别人的东西，是因为别人允许；不是因为它能下载到。**\n> 这里只随附明确允许再分发的东西，其余一律只给获取方式。",
+  "exclude": [
+    "difaandailisi"
+  ],
+  "repos": [
+    {
+      "name": "Paperworld-",
+      "title": "瞬间重构 · 纸世界",
+      "url": "https://github.com/difaandailisi/Paperworld-",
+      "blurb": "一个 2020 年提出、2023 年成文的构想：软件的形态可以是临时的，只有数据与语义需要长期存在",
+      "status": "研究文档，CC0",
+      "licenseContent": "纸世界的全部文字",
+      "licenseNote": "CC0 1.0（公共领域奉献，无需署名）",
+      "section": "## 一、瞬间重构 · 纸世界\n\n> AI 直接生成一件你此刻要用的东西——说不清是菜单还是 APP——\n> 用完立即销毁，**但数据保持连续**。\n\n听起来像科幻。但拆开看，它是三个可以单独检验的命题：\n\n- **P1 界面不是资产** — 界面 = f(状态, 意图)，随用随算，不必预先存在\n- **P2 生命周期短于产品周期** — 生成物寿命 = 本次使用时长，而非软件版本周期\n- **P3 状态与界面彻底解耦** — 丢弃界面不损失任何信息\n\n六年后，2026 年的前沿技术在四个不同层上做了同一个动作，各拆开了一样东西：\nDeepSeek Harness 拆开**组件生命周期**，Engram 拆开**记忆与推理**，\nOpenAI Apps SDK 拆开**界面与 APP**，Anthropic Skills 拆开**规则与常驻提示**。\n\n而 **「界面本身由生成器决定」这一格，仍然空着**。这个仓库指向的就是那一格。\n\n仓库里有一份 2023 年的原文（逐字保留）、一份系统化整理、一份类比随笔，\n以及一份早期推演。**建议先读整理的第三部分**——先知道边界，才不会被原文里的\n电子纸硬件设想带跑。\n\n文字部分 **CC0**：可以复制、修改、商用、闭源再发布，**连署名都不需要**。"
+    },
+    {
+      "name": "honor-stylus-floatmenu",
+      "title": "荣耀手写笔悬浮菜单",
+      "url": "https://github.com/difaandailisi/honor-stylus-floatmenu",
+      "blurb": "Android 手写笔电量分析 App（BLE 电量监测 / 充放电统计 / 系统笔状态模拟）+ 荣耀系统应用逆向分析记录",
+      "status": "可运行，MIT",
+      "licenseContent": "手写笔 App 与逆向分析文档",
+      "licenseNote": "MIT",
+      "section": "## 二、荣耀手写笔悬浮菜单\n\nAndroid 应用（minSdk 26 / targetSdk 35，实测 Android 14–16）：\n\n- **BLE 电量监测** — 扫描发现、Battery Service (0x180F) 读值、连接保活\n- **电量分析** — 充放电会话识别、日/月/年周期统计、健康度评估\n- **系统手写笔** — 荣耀/华为笔识别、系统笔状态读写、悬浮菜单模拟（A/C 模式）\n- **键值映射** — 输入设备扫描、全局键值读写与还原\n- **桌面组件** — Glance 小组件、快捷设置磁贴\n\n附带 `代码逆向/` 目录：荣耀四个系统应用的静态分析、悬浮菜单触发链路、\n判定条件与实测脚本，以及一份 **给 AI 读的结构化事实表**（`AI-CONTEXT.md`），\n包含状态机、Settings 键值全集、充电 `cmd id` 表、一碰传 biz 路由，\n单列了「已被证伪的坑」——避免后来者照着旧结论重犯同样的错。\n\nMIT 许可。"
+    },
+    {
+      "name": "NFCSHARE-Honor-Edition",
+      "title": "NFCSHARE 荣耀版",
+      "url": "https://github.com/difaandailisi/NFCSHARE-Honor-Edition",
+      "blurb": "华为/荣耀「一碰传」NFC 标签生成工具（Windows/Python），读设备 SN / 蓝牙 MAC / 型号生成二维码",
+      "status": "可运行，MIT",
+      "licenseContent": "NFCSHARE 荣耀版",
+      "licenseNote": "MIT",
+      "section": "## 三、NFCSHARE 荣耀版\n\nWindows 桌面工具，为华为/荣耀设备生成「一碰传」NFC 标签。\n\n标签载荷格式很朴素：\n\n```\nSN=<16位，空格转 A 补齐>|MAC=<12位大写>|MODELID=<8位>\n```\n\n电脑固定 `MODELID=00000506`，平板/手机查型号表。工具做的事就是：连设备取 SN 和\n蓝牙 MAC，归一化，拼成字符串，生成二维码，手机扫码后写入 NFC 贴纸。\n\n在华为原版基础上重写的是**取数逻辑**：12 条蓝牙 MAC 候选路径（含 Android 15+ 专用，\n以及荣耀私有的 `vendor.hardware.bt.mac` / `vendor.honor.bt.mac`）、\n型号与设备名双重匹配、剥离柔光版/Lite/Pro/Max/SE 等后缀。\n\nMIT 许可。"
+    },
+    {
+      "name": "v100-resolve-blackscreen",
+      "title": "V100 跑达芬奇不黑屏",
+      "url": "https://github.com/difaandailisi/v100-resolve-blackscreen",
+      "blurb": "Tesla V100 计算卡 + 亮机卡在 Windows 上跑 DaVinci Resolve 的黑屏成因，与三种能走通的解法（含网易 UU 虚拟屏）",
+      "status": "文档整理，CC BY-SA 4.0",
+      "licenseContent": "V100 跑达芬奇（文档与截图编排）",
+      "licenseNote": "CC BY-SA 4.0（原视频版权归 @水芙的达芬奇）",
+      "section": "## 四、V100 跑达芬奇不黑屏\n\n一块 Tesla V100 计算卡配一张亮机卡，在 Windows 上打开 DaVinci Resolve——\n界面能出来，监视器全黑，按播放更黑。这不是软件坏了，是三个设定撞在一起：\n\n- **V100 没有显示输出**，Windows 下只跑 TCC 模式，不进 WDDM 图形栈，**只能算不能画**\n- **达芬奇的界面是 OpenGL 画的**，启动时必须找一块正在承担显示输出的 GPU 建上下文\n- 界面建在亮机卡、CUDA 解码指向 V100，两块卡不是同一设备，达芬奇**直接给黑屏，不降级**\n\n说白了：**OpenGL 上下文建在 A 卡，CUDA 落在 B 卡，而它要求两者是同一块卡。**\n\n仓库把三条视频里的三种解法拆成了逐步清单，每条都标了时间戳、旁白原话，配逐帧放大的截图：\n\n| 方案 | 亮机卡 | 做法 | 步骤 |\n|---|---|---|---|\n| 一 | 任意 | 改 OpenGL ICD 注册表，强制走 NVIDIA 驱动 | 8 |\n| 二 | NVIDIA | 显示卡设默认 GPU + 达芬奇偏好里取消「自动」 | 3 |\n| 三 | AMD | 网易 UU 虚拟屏顶掉物理屏，让 V100 成为唯一可见设备 | 14 |\n\n技术上最值得说的一点：三种方法看着完全不同，落点其实是同一句话——\n**让 OpenGL 上下文和 CUDA 处理落在同一块卡上，而这卡是 V100**。\n改系统、改应用层、改显示环境，只是“骗”的层级不同。\n\n> **这份不是我发明的方案。** 原作者是 B 站 UP 主「水芙的达芬奇」，\n> 三条视频的链接、BibTeX 引用都放在仓库里。我只做结构化整理、逐帧核对，\n> 以及把“为什么黑”讲清楚——顺带标出了视频与文案本身不一致的 5 处。\n\nCC BY-SA 4.0（原视频与截图版权归原作者）。"
+    },
+    {
+      "name": "p123",
+      "title": "123 云盘助手技能",
+      "url": "https://github.com/difaandailisi/p123",
+      "blurb": "一个 WorkBuddy 技能：扫码登录 / 文件管理 / 秒传上传 / 下载会员限制如实报告，命令行即可驱动",
+      "status": "可复用技能，CC BY-SA 4.0",
+      "licenseContent": "123 云盘助手技能",
+      "licenseNote": "CC BY-SA 4.0",
+      "section": "## 五、123 云盘助手技能\n\n一个 WorkBuddy 技能（也是一套 Python 脚本），把 123 云盘（123pan.com）的常用操作\n从网页点按变成命令行驱动。这不是官方 SDK，而是对 123 云盘 Web 端真实接口的实测封装。\n\n踩过的坑都写进了技能里，最关键的三条：\n\n- **登录只走扫码**：手机号 + 验证码这条路会被阿里云滑块拦死（无头环境下拖不动），\n  二维码用 Playwright 截出来，手机 App 一扫即过。登录态存到 `~/.p123/state.json`。\n- **上传支持秒传**：文件先算 MD5，命中服务端已有对象就直接挂接，不上传任何字节。\n  像 Android Studio 官方安装包这种热门文件，几乎必然秒传。\n- **下载会如实报限制**：免费账号下载受会员策略约束（`isBlocked`、`shareTrafficBalance`）。\n  技能不会假装能下，而是把\"需要 VIP\"这件事明明白白告诉你。\n\n功能清单（命令即文档）：\n\n| 命令 | 作用 |\n|---|---|\n| `python3 login_qr.py` | 弹出二维码、轮询登录、保存登录态 |\n| `python3 p123.py whoami` | 打印账号、空间、UID |\n| `python3 p123.py ls [父目录ID]` | 列目录（默认根目录） |\n| `python3 p123.py search <关键词>` | 全局搜索，保留相关性顺序 |\n| `python3 p123.py mkdir <名称> [父目录ID]` | 建文件夹 |\n| `python3 p123.py rm <FileId>` | 删除（移入回收站） |\n| `python3 p123.py mv <FileId> <目标目录ID>` | 移动 / 整理文件 |\n| `python3 p123.py upload <本地路径> [父目录ID]` | 秒传优先上传 |\n| `python3 p123.py dlcheck <FileId>` | 下载前预检，如实报告会员限制 |\n\nCC BY-SA 4.0。"
+    },
+    {
+      "name": "rikkahub-chat-export",
+      "title": "RikkaHub 聊天记录和文件导出",
+      "url": "https://github.com/difaandailisi/rikkahub-chat-export",
+      "blurb": "把 RikkaHub 备份还原成 Markdown/TXT/PDF（含 AI 思考过程），网页版零安装离线 + Python CLI，纯本地解析",
+      "status": "可运行，MIT",
+      "licenseContent": "RikkaHub 聊天记录和文件导出",
+      "licenseNote": "MIT",
+      "section": "## 六、RikkaHub 聊天记录和文件导出\n\nRikkaHub（一个 Android AI 聊天 App，「设置 → 备份与恢复」）导出的备份是一个 zip，\n里面是 SQLite 数据库 `rikka_hub.db`、`settings.json` 和 `upload/` 附件——\n它只能导回 App，不能直接阅读。这个工具把库里的聊天记录还原成\n**Markdown / TXT / PDF**，连 **AI 的思考过程（reasoning）、工具调用、图片引用**都完整保留。\n\n两种形态，同一个仓库：\n\n- **网页版**（`index.html`，零安装）：手机 / 电脑浏览器打开，选 zip 即出结果。\n  sql.js 与 JSZip 全部内联进单文件，**完全离线、数据不出设备**；\n  已部署到 GitHub Pages，打开链接就能用。\n- **Python 命令行版**：`.zip` / 解压目录 / `.db` 三种输入，输出 `.md` / `.txt` / 合并 `.pdf`，\n  支持 `--no-reasoning` 关闭思考、`--only` 按标题过滤。\n\n数据格式逆向自开源的 [rikkahub/rikkahub](https://github.com/rikkahub/rikkahub)：\n消息存在 `message_node` 表（`node_index` 定顺序、`select_index` 选分支），\n每条消息的 `parts` 用 `type` 字段区分正文、思考与工具。完整表结构和 JSON 格式\n整理在 `AGENTS.md` 里，别人可以照着接着改。\n\nMIT 许可。"
+    },
+    {
+      "name": "dsh-capability-router",
+      "title": "dsh-capability-router",
+      "url": "https://github.com/difaandailisi/dsh-capability-router",
+      "blurb": "一句自然语言需求，跨「已装技能 / DSH 插件 / MCP」三类能力统一检索，返回带命中理由的候选（纯本地、零依赖、只读）",
+      "status": "可复用插件 + 技能，MIT",
+      "licenseContent": "dsh-capability-router",
+      "licenseNote": "MIT",
+      "section": "## 七、dsh-capability-router\n\n一个 DSH 插件（同时是 WorkBuddy 技能），把「一句话需求」翻译成「该用哪个能力」：\n\n模型能调用什么，取决于会话启动时上下文里有什么。于是三个具体问题——**看不见就想不到**（目录外的能力等于不存在）、**中文查询零召回**（插件描述多是英文）、**三类割裂**（技能在文件系统、插件在 profile、MCP 在另一份配置，没有统一入口）。\n\n这个插件把三类归一成一张目录，用一个工具按意图检索，返回**带命中理由**的候选：\n\n```\n需求 ──► 词元扩展 ──► 三类目录打分 ──► 候选 + 理由\n         (中文 2-gram          (技能 / 插件 / MCP)\n          + 中英意图词典)\n```\n\n- **采集**：技能读 `SKILL.md` frontmatter；插件读 profile 的 `package.json` 与包自带 `description/keywords`；MCP 读 `mcp.json`。\n- **打分**：名称 +3、标签 +2、分类 +2、描述 +1；同字段最多计两次。\n- **引导**：注入一段系统提示词，让模型在「用户说需求而非工具名」时主动调用——光有工具不会被用起来。\n- **设计取舍**：故意不用向量检索，几十到几百条目录下 2-gram + 意图词典召回已够，且**可解释**（每条都说得出为什么命中）、零延迟、零模型调用；只检索、不安装——装插件等于执行第三方代码，工具只给命令。\n\n最值得提的一点：引擎 `lib/catalog.js` 是纯函数、零依赖，被 DSH 插件和 WorkBuddy 技能**共用同一份代码**（不是各抄一份），这本身就是它主张的那件事——能力定义一处，实现多处复用。\n\nMIT 许可。维护 / 贡献须知见仓库内的 `AGENTS.md`。"
+    }
+  ],
+  "staticLicenseRows": [
+    {
+      "content": "`adb/` 目录",
+      "license": "Apache-2.0（版权归 Google / AOSP）"
+    },
+    {
+      "content": "一碰传助手 APK",
+      "license": "不随附、不分发"
+    }
+  ]
+}
