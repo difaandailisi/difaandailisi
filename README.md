@@ -9,7 +9,7 @@
 
 ---
 
-## 七个仓库
+## 八个仓库
 
 | 仓库 | 一句话 | 状态 |
 |---|---|---|
@@ -20,6 +20,7 @@
 | **[123 云盘助手技能](https://github.com/difaandailisi/p123)** | 一个 WorkBuddy 技能：扫码登录 / 文件管理 / 秒传上传 / 下载会员限制如实报告，命令行即可驱动 | 可复用技能，CC BY-SA 4.0 |
 | **[RikkaHub 聊天记录和文件导出](https://github.com/difaandailisi/rikkahub-chat-export)** | 把 RikkaHub 备份还原成 Markdown/TXT/PDF（含 AI 思考过程），网页版零安装离线 + Python CLI，纯本地解析 | 可运行，MIT |
 | **[dsh-capability-router](https://github.com/difaandailisi/dsh-capability-router)** | 一句自然语言需求，跨「已装技能 / DSH 插件 / MCP」三类能力统一检索，返回带命中理由的候选（纯本地、零依赖、只读） | 可复用插件 + 技能，MIT |
+| **[Edge Addons Feedback Assets](https://github.com/difaandailisi/edge-addons-feedback-assets)** | Screenshots for Microsoft Edge Add-ons developer enrollment bug report | 新建仓库 |
 
 ---
 
@@ -200,6 +201,14 @@ MIT 许可。维护 / 贡献须知见仓库内的 `AGENTS.md`。
 
 ---
 
+## Edge Addons Feedback Assets
+
+Screenshots for Microsoft Edge Add-ons developer enrollment bug report
+
+> 本条目由 Profile 同步 Action 自动生成。编辑 profile-data.json 可改为完整介绍。
+
+---
+
 ## 关于第三方组件与使用风险
 
 这部分我写得很直白，因为含糊对谁都没好处。
@@ -240,5 +249,6 @@ MIT 许可。维护 / 贡献须知见仓库内的 `AGENTS.md`。
 | 123 云盘助手技能 | CC BY-SA 4.0 |
 | RikkaHub 聊天记录和文件导出 | MIT |
 | dsh-capability-router | MIT |
+| edge-addons-feedback-assets | 未声明 |
 | `adb/` 目录 | Apache-2.0（版权归 Google / AOSP） |
 | 一碰传助手 APK | 不随附、不分发 |
