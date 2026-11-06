@@ -1,0 +1,43 @@
+name: Sync Profile README
+
+# 作用：把「新建仓库自动进 Profile 索引」这件事变成定时任务。
+# 机制：每天跑一次 generate-profile.mjs —— 它读 profile-data.json，
+#       再调 GitHub API 发现 owner 名下「未在数据里、也未被排除」的仓库，
+#       自动补进索引表 / 生成一段基础介绍 / 加入许可一览。
+# 说明：个人账号无法在「建仓瞬间」触发（GitHub 仅对组织开放该 webhook），
+#       所以这是「每天一次 / 手动点一下」的准实时，已是个人账号能做到的极限。
+
+on:
+  schedule:
+    - cron: '23 4 * * *'        # 每天 UTC 04:23（避开整点高峰）
+  workflow_dispatch: {}          # 也可在 Actions 页面手动 Run workflow 立即触发
+
+permissions:
+  contents: write               # 仅用于回写 README.md
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 重新生成 README
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node generate-profile.mjs
+
+      - name: 有变化则提交
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          if git diff --cached --quiet; then
+            echo "无变化，跳过提交"
+          else
+            git commit -m "chore: 自动同步 Profile 索引（新增仓库自动入列）"
+            git push
+          fi
